@@ -1,12 +1,11 @@
-@import 'vars';
-@import 'mixins';
+@import "vars";
+@import "mixins";
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-
 
 body {
   background-color: #dcdcdc;
@@ -16,6 +15,58 @@ body {
 
 main {
   @include size($width, $height);
-  background-color: red;
-  font-size: 200px;
+
+  section {
+    position: relative;
+    perspective: 500px;
+
+    > div {
+      position: absolute;
+      &::before,
+      &::after {
+        display: block;
+        text-align: center;
+        font: bold $height arial;
+        color: white;
+        overflow: hidden;
+        border-radius: 5px;
+        background-color: $bgColor;
+        @include size($width, $height/2);
+      }
+
+      &::before {
+        content: attr(data-after);
+        line-height: $height;
+      }
+
+      &::after {
+        content: attr(data-before);
+        line-height: 0;
+      }
+    }
+
+    > div:nth-child(2) {
+      backface-visibility: hidden;
+      // transform-style: preserve-3d;
+      transition: 0.5s;
+      transform-origin: bottom;
+      @include size($width, $height/2);
+
+      &::before {
+        line-height: 0;
+        background-color: blue;
+        transform: rotateX(180deg);
+      }
+
+      &::after {
+        background-color: red;
+        transform: translateY(-100%);
+        line-height: $height;
+      }
+    }
+
+    &:hover > div:nth-child(2) {
+      transform: rotateX(-180deg);
+    }
+  }
 }

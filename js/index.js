@@ -1,7 +1,7 @@
 class FlipClock {
   main;
   nums;
-  nextNums;
+  // nextNums;
   refs;
   constructor(el) {
     this.main = document.querySelector(el);
@@ -23,7 +23,13 @@ class FlipClock {
 
   update() {
     this.nums.forEach((num, index) => {
-      const nextNum = this.nextNums[index];
+      let nextNum = num + 1;
+      if (index % 2) {
+        nextNum = nextNum > 9 ? 0 : nextNum;
+      } else {
+        nextNum = nextNum > 5 ? 0 : nextNum;
+      }
+
       const [div1, div2] = this.refs[index];
 
       if (Number(div1.dataset.before) !== num) {
@@ -47,11 +53,11 @@ class FlipClock {
       .replaceAll(":", "")
       .split("")
       .map((num) => Number(num));
-    this.nextNums = new Date(timeStamp + 1000)
-      .toLocaleTimeString()
-      .replaceAll(":", "")
-      .split("")
-      .map((num) => Number(num));
+    // this.nextNums = new Date(timeStamp + 1000)
+    //   .toLocaleTimeString()
+    //   .replaceAll(":", "")
+    //   .split("")
+    //   .map((num) => Number(num));
   }
 
   getRefs() {

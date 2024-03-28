@@ -14,11 +14,19 @@ body {
 }
 
 main {
-  @include size($width, $height);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  p::after {
+    content: ":";
+    font: bold $height arial;
+  }
 
   section {
     position: relative;
-    perspective: 500px;
+    perspective: 300px;
+    @include size($width, $height);
 
     > div {
       position: absolute;
@@ -54,19 +62,29 @@ main {
 
       &::before {
         line-height: 0;
-        background-color: blue;
         transform: rotateX(180deg);
       }
 
       &::after {
-        background-color: red;
         transform: translateY(-100%);
         line-height: $height;
       }
+
+      &.flipDown {
+        animation-name: flipDown;
+        animation-duration: 0.5s;
+        animation-fill-mode: both;
+      }
     }
 
-    &:hover > div:nth-child(2) {
-      transform: rotateX(-180deg);
-    }
+    // &:hover > div:nth-child(2) {
+    //   transform: rotateX(-180deg);
+    // }
+  }
+}
+
+@keyframes flipDown {
+  to {
+    transform: rotateX(-180deg);
   }
 }

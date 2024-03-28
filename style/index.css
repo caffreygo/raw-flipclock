@@ -14,12 +14,19 @@ body {
 }
 
 main {
-  width: 200px;
-  height: 300px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+main p::after {
+  content: ":";
+  font: bold 90px arial;
 }
 main section {
   position: relative;
-  perspective: 500px;
+  perspective: 300px;
+  width: 60px;
+  height: 90px;
 }
 main section > div {
   position: absolute;
@@ -27,17 +34,17 @@ main section > div {
 main section > div::before, main section > div::after {
   display: block;
   text-align: center;
-  font: bold 300px arial;
+  font: bold 90px arial;
   color: white;
   overflow: hidden;
   border-radius: 5px;
   background-color: #000;
-  width: 200px;
-  height: 150px;
+  width: 60px;
+  height: 45px;
 }
 main section > div::before {
   content: attr(data-after);
-  line-height: 300px;
+  line-height: 90px;
 }
 main section > div::after {
   content: attr(data-before);
@@ -47,19 +54,25 @@ main section > div:nth-child(2) {
   backface-visibility: hidden;
   transition: 0.5s;
   transform-origin: bottom;
-  width: 200px;
-  height: 150px;
+  width: 60px;
+  height: 45px;
 }
 main section > div:nth-child(2)::before {
   line-height: 0;
-  background-color: blue;
   transform: rotateX(180deg);
 }
 main section > div:nth-child(2)::after {
-  background-color: red;
   transform: translateY(-100%);
-  line-height: 300px;
+  line-height: 90px;
 }
-main section:hover > div:nth-child(2) {
-  transform: rotateX(-180deg);
+main section > div:nth-child(2).flipDown {
+  animation-name: flipDown;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes flipDown {
+  to {
+    transform: rotateX(-180deg);
+  }
 }/*# sourceMappingURL=index.css.map */

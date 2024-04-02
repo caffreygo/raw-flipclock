@@ -87,3 +87,17 @@ class FlipClock {
 
 const instance = new FlipClock("#clock");
 instance.render();
+
+const endTime = dayjs().add(188 * 60 + 12, "second");
+let hour = endTime.diff(dayjs(), "hour");
+let minute = endTime.diff(dayjs().add(hour, "hour"), "minute");
+let second = endTime.diff(
+  dayjs().add(hour, "hour").add(minute, "minute"),
+  "second"
+);
+
+hour = hour > 9 ? hour : `0${hour}`;
+minute = minute > 9 ? minute : `0${minute}`;
+second = second > 9 ? second : `0${second}`;
+
+console.log(hour, minute, second);

@@ -1,9 +1,9 @@
-class FlipClock {
+class FlipClock extends FlipNumber {
   main;
-  nums;
-  // nextNums;
   refs;
+
   constructor(el) {
+    super();
     this.main = document.querySelector(el);
   }
 
@@ -19,17 +19,6 @@ class FlipClock {
       this.getTimes();
       this.updateDivNumber();
     }, 50);
-  }
-
-  getNextNum(index) {
-    const before = this.nums[index];
-    let after = before + 1;
-    if (index % 2) {
-      after = after > 9 ? 0 : after;
-    } else {
-      after = after > 5 ? 0 : after;
-    }
-    return { before, after };
   }
 
   updateDivNumber() {

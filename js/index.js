@@ -17,31 +17,32 @@ class FlipClock {
     this.clock();
     setInterval(() => {
       this.getTimes();
-      this.update();
+      this.updateDivNumber();
     }, 50);
   }
 
-  update() {
-    this.nums.forEach((num, index) => {
-      let nextNum = num + 1;
-      if (index % 2) {
-        nextNum = nextNum > 9 ? 0 : nextNum;
-      } else {
-        nextNum = nextNum > 5 ? 0 : nextNum;
-      }
+  getNextNum(index) {
+    const before = this.nums[index];
+    let after = before + 1;
+    if (index % 2) {
+      after = after > 9 ? 0 : after;
+    } else {
+      after = after > 5 ? 0 : after;
+    }
+    return { before, after };
+  }
 
-      const [div1, div2] = this.refs[index];
-
-      if (Number(div1.dataset.before) !== num) {
+  updateDivNumber() {
+    this.refs.forEach(([div1, div2], index) => {
+      const { before, after } = this.getNextNum(index);
+      if (Number(div2.dataset.before) !== before) {
         div2.classList.add("flipDown");
       }
 
       div2.addEventListener("animationend", () => {
-        div1.dataset.before = num;
-        div2.dataset.before = num;
-        div1.dataset.after = nextNum;
-        div2.dataset.after = nextNum;
         div2.classList.remove("flipDown");
+        div1.dataset.after = div2.dataset.after = after;
+        div1.dataset.before = div2.dataset.before = before;
       });
     });
   }
@@ -53,11 +54,6 @@ class FlipClock {
       .replaceAll(":", "")
       .split("")
       .map((num) => Number(num));
-    // this.nextNums = new Date(timeStamp + 1000)
-    //   .toLocaleTimeString()
-    //   .replaceAll(":", "")
-    //   .split("")
-    //   .map((num) => Number(num));
   }
 
   getRefs() {

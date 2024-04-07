@@ -3,6 +3,7 @@ class FlipNumber {
   nextNums;
   options;
   endTime;
+  hasHour = true;
 
   constructor(options) {
     this.options = Object.assign(
@@ -15,6 +16,8 @@ class FlipNumber {
     if (this.options.type === "clock") return;
 
     this.endTime = dayjs();
+    this.endTimestamp = this.endTime.valueOf();
+
     Object.entries(this.options.timing).forEach(([type, num]) => {
       this.endTime = this.endTime.add(num, type);
     });
@@ -51,12 +54,13 @@ class FlipNumber {
       "second"
     );
 
+    this.hasHour = hour > 0;
+
     hour = hour > 9 ? hour : `0${hour}`;
     minute = minute > 9 ? minute : `0${minute}`;
     second = second > 9 ? second : `0${second}`;
 
-    const len = this.options.timing.hour ? 6 : 4;
-    return `${hour}${minute}${second}`.substring(6 - len).split("").map((num) => Number(num));
+    return `${hour}${minute}${second}`.split("").map((num) => Number(num));
   }
 
   getTimingNums() {

@@ -1,10 +1,16 @@
 class FlipClock extends FlipNumber {
   main;
   refs;
+  timer;
 
   constructor(options) {
     super(options);
     this.main = document.querySelector(options.el);
+    this.main.classList.add("flip-clock");
+
+    if (options.style) {
+      this.injectStyle(options.style)
+    }
   }
 
   clock() {
@@ -13,12 +19,24 @@ class FlipClock extends FlipNumber {
     this.getRefs();
   }
 
+  injectStyle(theme) {
+    this.main.insertAdjacentHTML("beforeend", `<link rel="stylesheet" type="text/css" href="./style/${theme}.css" />`)
+  }
+
   render() {
     this.clock();
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.getNums();
       this.updateDivNumber();
+
+      if (this.nums.every((num) => num === 0)) {
+        this.stop();
+      }
     }, 50);
+  }
+
+  stop() {
+    clearInterval(this.timer);
   }
 
   updateDivNumber() {
@@ -58,19 +76,10 @@ class FlipClock extends FlipNumber {
       if (idx % 2 & (idx < this.nums.length - 1)) {
         this.main.insertAdjacentHTML("beforeend", "<p></p>");
       }
+
+      if (!this.hasHour) {
+        this.main.classList.add("hour-hidden");
+      }
     });
   }
 }
-
-const instance = new FlipClock({
-  el: "#clock",
-  type: "timing",
-  timing: {
-    // hour: 2,
-    minute: 2,
-    second: 11
-  }
-});
-
-instance.render();
-

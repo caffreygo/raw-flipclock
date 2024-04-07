@@ -1,0 +1,10 @@
+.flip-clock section > div::before, .flip-clock section > div::after {
+  color: #333;
+  background-color: unset;
+}
+.flip-clock section > div::before {
+  content: attr(data-before);
+}
+.flip-clock section > div:nth-child(2) {
+  opacity: 0;
+}/*# sourceMappingURL=pure.css.map */

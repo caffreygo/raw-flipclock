@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="./style/index.css">
-  <script src="./js/FlipNumber.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.9/dayjs.min.js"></script>
-  <script src="./js/index.js" defer></script>
-</head>
-<body>
-  <main id="clock">
-  </main>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style/base.css" />
+    <script src="./js/FlipNumber.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.9/dayjs.min.js"></script>
+    <script src="./js/index.js"></script>
+  </head>
+  <body>
+    <main id="clock"></main>
+    <script>
+      const instance = new FlipClock({
+        el: "#clock",
+        // type: "timing",
+        style: "pure",
+        timing: {
+          hour: 1,
+          minute: 59,
+          second: 1,
+        },
+      });
+
+      instance.render();
+    </script>
+  </body>
 </html>

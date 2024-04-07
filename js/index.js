@@ -2,22 +2,21 @@ class FlipClock extends FlipNumber {
   main;
   refs;
 
-  constructor(el) {
-    super();
-    this.main = document.querySelector(el);
+  constructor(options) {
+    super(options);
+    this.main = document.querySelector(options.el);
   }
 
   clock() {
-    this.getTimes();
+    this.getNums();
     this.creteSectionElement();
     this.getRefs();
-    console.log(this);
   }
 
   render() {
     this.clock();
     setInterval(() => {
-      this.getTimes();
+      this.getNums();
       this.updateDivNumber();
     }, 50);
   }
@@ -37,13 +36,6 @@ class FlipClock extends FlipNumber {
     });
   }
 
-  getTimes() {
-    this.nums = dayjs()
-      .format("HHmmss")
-      .split("")
-      .map((num) => Number(num));
-  }
-
   getRefs() {
     this.refs = Array.from(this.main.querySelectorAll("section")).map(
       (section) => section.querySelectorAll("div")
@@ -52,12 +44,13 @@ class FlipClock extends FlipNumber {
 
   creteSectionElement() {
     this.nums.forEach((num, idx) => {
+      const { before, after } = this.getNextNum(idx);
       this.main.insertAdjacentHTML(
         "beforeend",
         `
       <section>
-        <div data-before="${num}" data-after="${num + 1}"></div>
-        <div data-before="${num}" data-after="${num + 1}"></div>
+        <div data-before="${before}" data-after="${after}"></div>
+        <div data-before="${before}" data-after="${after}"></div>
       </section>
       `
       );
@@ -69,19 +62,15 @@ class FlipClock extends FlipNumber {
   }
 }
 
-const instance = new FlipClock("#clock");
+const instance = new FlipClock({
+  el: "#clock",
+  type: "timing",
+  timing: {
+    // hour: 2,
+    minute: 2,
+    second: 11
+  }
+});
+
 instance.render();
 
-const endTime = dayjs().add(188 * 60 + 12, "second");
-let hour = endTime.diff(dayjs(), "hour");
-let minute = endTime.diff(dayjs().add(hour, "hour"), "minute");
-let second = endTime.diff(
-  dayjs().add(hour, "hour").add(minute, "minute"),
-  "second"
-);
-
-hour = hour > 9 ? hour : `0${hour}`;
-minute = minute > 9 ? minute : `0${minute}`;
-second = second > 9 ? second : `0${second}`;
-
-console.log(hour, minute, second);

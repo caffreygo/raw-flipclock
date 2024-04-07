@@ -11,6 +11,7 @@ class FlipClock extends FlipNumber {
     this.getTimes();
     this.creteSectionElement();
     this.getRefs();
+    console.log(this);
   }
 
   render() {
@@ -37,10 +38,8 @@ class FlipClock extends FlipNumber {
   }
 
   getTimes() {
-    const timeStamp = Date.now();
-    this.nums = new Date(timeStamp)
-      .toLocaleTimeString()
-      .replaceAll(":", "")
+    this.nums = dayjs()
+      .format("HHmmss")
       .split("")
       .map((num) => Number(num));
   }
